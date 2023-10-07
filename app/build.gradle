@@ -5,6 +5,7 @@ plugins {
 android {
     namespace 'com.ayan.simplelivetv'
     compileSdk 33
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.ayan.simplelivetv"
