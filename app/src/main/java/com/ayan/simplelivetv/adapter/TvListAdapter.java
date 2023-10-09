@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,8 @@ public class TvListAdapter extends RecyclerView.Adapter<TvListAdapter.ViewHolder
 
     private List<LiveTVDataModel> liveTVDataModel;
     private Context context;
+    private static OnItemClickListener listener;
+
 
     public TvListAdapter(List<LiveTVDataModel> liveTVDataModel, Context context) {
         this.liveTVDataModel = liveTVDataModel;
@@ -53,16 +56,43 @@ public class TvListAdapter extends RecyclerView.Adapter<TvListAdapter.ViewHolder
 
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView ivChanelImage;
         private TextView tvChanelName;
+        private LinearLayout parentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivChanelImage = itemView.findViewById(R.id.row_chanel_image);
             tvChanelName = itemView.findViewById(R.id.row_chanel_name);
+            parentLayout = itemView.findViewById(R.id.row_parent_layout);
+
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
 
         }
+
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+
 }
