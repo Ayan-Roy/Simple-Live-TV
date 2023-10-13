@@ -13,7 +13,8 @@
             android:id="@+id/web_view"
             android:layout_width="match_parent"
             android:foregroundGravity="center"
-            android:layout_height="250dp" />
+            android:layout_height="match_parent"
+            android:minHeight="250dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="20dp"

@@ -1,24 +1,31 @@
 package com.ayan.simplelivetv;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -54,17 +61,40 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
         // Enable JavaScript (if required)
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+/*        webSettings.setDomStorageEnabled(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        }*/
+
 
         // Set a WebViewClient to handle navigation within the WebView
         webView.setWebViewClient(new MyWebViewClient());
 
         // Load the PHP video link
-        String somoyTv = "https://livetv.com.bd/tv/bangla/somoytv.php";
-        webView.loadUrl(somoyTv);
+       /* String somoyTv = "https://livetv.com.bd/tv/bangla/somoytv.php";
+        webView.loadUrl(somoyTv);*/
+
+
+        setWebViewLayoutParams();
+
+        getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // Add an orientation change listener to handle changes dynamically
+        getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setWebViewLayoutParams();
+            }
+        });
+
+        webView.loadUrl("https://livetv.com.bd/tv/bangla/somoytv.php");
 
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
         tvListAdapter = new TvListAdapter(tvDataModel, this);
         tvListAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(tvListAdapter);
@@ -81,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
         tvDataModel = new ArrayList<>();
 
 
+    //    tvDataModel.add(new LiveTVDataModel(R.drawable.img_star_sports_1, "Star Sports 1", "https://stream.crichd.vip/update/star.php"));
         tvDataModel.add(new LiveTVDataModel(R.drawable.img_somoy_tv, "Somoy TV", "https://livetv.com.bd/tv/bangla/somoytv.php"));
         tvDataModel.add(new LiveTVDataModel(R.drawable.img_rtv, "Rtv", "https://livetv.com.bd/tv/bangla/rtv.php"));
         tvDataModel.add(new LiveTVDataModel(R.drawable.img_chaneli, "Chanel I", "https://livetv.com.bd/tv/bangla/channel-i.php"));
@@ -137,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             webView.loadUrl("javascript:(function() { document.querySelector('video #body').click(); })()");
+            Log.e(TAG, "###########################      Clicked         ########################");
 
         }
 
@@ -147,5 +179,27 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
 
         }
 
+/*        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            // Print or log SSL error details
+            handler.proceed(); // Ignore SSL certificate errors (not recommended for production)
+        }*/
+
+    }
+
+
+    private void setWebViewLayoutParams() {
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) webView.getLayoutParams();
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Set max height to 250dp when in portrait mode
+            layoutParams.height = getResources().getDimensionPixelSize(R.dimen.webview_max_height);
+        } else {
+            // Match parent when in landscape mode
+            layoutParams.height = FrameLayout.LayoutParams.MATCH_PARENT;
+        }
+
+        webView.setLayoutParams(layoutParams);
+        //webView.loadUrl("https://livetv.com.bd/tv/bangla/somoytv.php");
     }
 }
