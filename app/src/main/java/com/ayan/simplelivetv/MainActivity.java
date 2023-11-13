@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
         webView.loadUrl(somoyTv);*/
 
 
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+
         setWebViewLayoutParams();
 
         getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
