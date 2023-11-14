@@ -2,24 +2,12 @@ package com.ayan.simplelivetv;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
-import android.graphics.PixelFormat;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.net.http.SslError;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewTreeObserver;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -27,9 +15,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.ayan.simplelivetv.adapter.TvListAdapter;
 import com.ayan.simplelivetv.model.LiveTVDataModel;
@@ -135,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
         tvDataModel.add(new LiveTVDataModel(R.drawable.img_annanda_tv, "Ananndo TV", "https://livetv.com.bd/tv/bangla/ananndotv.php"));
 
 
-
+        Log.e(TAG, "setDataModel: ");
+        Log.e(TAG, "setDataModel: ");
+        Log.e(TAG, "setDataModel: ");
+        Log.e(TAG, "setDataModel: ");
 
 
 
