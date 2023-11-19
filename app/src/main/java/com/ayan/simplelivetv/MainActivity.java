@@ -124,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements TvListAdapter.OnI
         Log.e(TAG, "setDataModel: ");
         Log.e(TAG, "setDataModel: ");
         Log.e(TAG, "setDataModel: ");
-        Log.e(TAG, "setDataModel: ");
-        Log.e(TAG, "setDataModel: ");
-        Log.e(TAG, "setDataModel: ");
 
 
 
